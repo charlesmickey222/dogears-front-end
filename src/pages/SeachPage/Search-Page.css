@@ -1,0 +1,12 @@
+.SearchResultsContainer{
+  display: grid;
+  grid-template-columns: repeat(5,15vw);
+  padding:5px;
+}
+
+.book{
+  display: inline-block;
+  height: 20vw;
+  width:10vw;
+  overflow: hidden;
+}

@@ -1,12 +1,11 @@
 // npm modules
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 // page components
 import Signup from './pages/Signup/Signup'
 import Login from './pages/Login/Login'
 import Landing from './pages/Landing/Landing'
-import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import ProfilePage from './pages/Profiles/Profile-Page'
 
@@ -19,6 +18,7 @@ import * as authService from './services/authService'
 
 // styles
 import './App.css'
+import SearchPage from './pages/SeachPage/Search-Page'
 
 
 const App = () => {
@@ -56,6 +56,14 @@ const App = () => {
               <ProfilePage user={user}/>
             </ProtectedRoute>
             }
+        />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute user={user}>
+              <SearchPage />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/change-password"
