@@ -1,0 +1,13 @@
+ul{
+  list-style: none;
+  display: inline-block;
+}
+
+li{
+  display: inline;
+  margin:2vw;
+}
+
+nav{
+  background-color: aquamarine;
+}

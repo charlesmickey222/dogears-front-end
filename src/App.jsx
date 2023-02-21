@@ -1,5 +1,5 @@
 // npm modules
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 // page components
@@ -8,6 +8,7 @@ import Login from './pages/Login/Login'
 import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
+import ProfilePage from './pages/Profiles/Profile-Page'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -18,6 +19,7 @@ import * as authService from './services/authService'
 
 // styles
 import './App.css'
+
 
 const App = () => {
   const [user, setUser] = useState(authService.getUser())
@@ -33,6 +35,7 @@ const App = () => {
     setUser(authService.getUser())
   }
 
+
   return (
     <>
       <NavBar user={user} handleLogout={handleLogout} />
@@ -46,13 +49,13 @@ const App = () => {
           path="/login"
           element={<Login handleSignupOrLogin={handleSignupOrLogin} />}
         />
-        <Route
-          path="/profiles"
+        <Route 
+          path={`/profiles/:id`}
           element={
             <ProtectedRoute user={user}>
-              <Profiles />
+              <ProfilePage user={user}/>
             </ProtectedRoute>
-          }
+            }
         />
         <Route
           path="/change-password"
