@@ -1,0 +1,8 @@
+*{
+  text-align: center;
+}
+input{
+  width:50vw;
+  padding:1vh;
+  font-size: 3em;
+}

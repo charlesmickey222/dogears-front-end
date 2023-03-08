@@ -29,4 +29,14 @@ async function fetchProfile(profileID){
   return await res.json()
 }
 
-export { getAllProfiles, addPhoto, fetchProfile }
+async function addBookToProfileLibrary(profileId, book){
+  const res = await fetch(`${BASE_URL}/${profileId}/library/${book.isbn[0]}`,{
+    method:'POST',
+    headers:{
+      'Authorization': `Bearer ${tokenService.getToken()}`
+    },
+    body:book,
+  })
+}
+
+export { getAllProfiles, addPhoto, fetchProfile,addBookToProfileLibrary }

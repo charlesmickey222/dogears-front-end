@@ -1,12 +1,28 @@
-.SearchResultsContainer{
+.searchResultsContainer{
   display: grid;
-  grid-template-columns: repeat(5,15vw);
-  padding:5px;
+  grid-template-columns: repeat(5,20vw);
+  padding:10px
 }
-
 .book{
   display: inline-block;
   height: 20vw;
-  width:10vw;
+  width:15vw;
   overflow: hidden;
+  text-align: center;
+  padding:0;
+  margin:0 auto;
+}
+.coverContainer{
+  display: block;
+  height: 70%;
+  background-image: url('/public/cdn.aadl.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+  overflow: hidden;
+}
+
+.cover{
+width: 19vh;
+height: 100%;
 }

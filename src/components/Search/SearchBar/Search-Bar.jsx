@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import './Search-Bar.css'
 const SearchBar = (props) => {
   const [formData, setFormData] = useState({ query: '' })
 

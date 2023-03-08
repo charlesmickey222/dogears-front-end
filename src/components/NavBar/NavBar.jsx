@@ -6,7 +6,7 @@ const NavBar = ({ user, handleLogout }) => {
       {user ?
         <ul>
           <li><Link to='/'>HOME</Link></li>
-          <li><Link to={`/profiles/${user.name}`}>user.name</Link></li>
+          <li><Link to={`/profiles/${user.name.replaceAll(' ','-')}`}>{user.name}</Link></li>
           <li><Link to='/search'>search</Link></li>
           <li><Link to="" onClick={handleLogout}>LOG OUT</Link></li>
           <li><Link to="/change-password">Change Password</Link></li>

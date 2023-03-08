@@ -1,6 +1,6 @@
 // npm modules
-import { useState } from 'react'
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 // page components
 import Signup from './pages/Signup/Signup'
@@ -8,6 +8,7 @@ import Login from './pages/Login/Login'
 import Landing from './pages/Landing/Landing'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import ProfilePage from './pages/Profiles/Profile-Page'
+import Book from './pages/Book/Book'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -15,7 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 // services
 import * as authService from './services/authService'
-
+import * as profileServices from './services/profileService'
 // styles
 import './App.css'
 import SearchPage from './pages/SeachPage/Search-Page'
@@ -23,6 +24,8 @@ import SearchPage from './pages/SeachPage/Search-Page'
 
 const App = () => {
   const [user, setUser] = useState(authService.getUser())
+  const [profile,setProfile] = useState()
+
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -35,6 +38,15 @@ const App = () => {
     setUser(authService.getUser())
   }
 
+  
+
+  useEffect(()=>{
+      const profileGrab = async() =>{
+        const profileData = await profileServices.fetchProfile(user.profile)
+        setProfile(profileData)
+      }
+      if(user&&!profile) profileGrab()
+  },[user,profile])
 
   return (
     <>
@@ -61,10 +73,17 @@ const App = () => {
           path="/search"
           element={
             <ProtectedRoute user={user}>
-              <SearchPage />
+              <SearchPage user={user}/>
             </ProtectedRoute>
           }
         />
+        <Route 
+          path="/books/:id"
+          element={
+            <ProtectedRoute user={user}>
+              <Book />
+            </ProtectedRoute>
+          }/>
         <Route
           path="/change-password"
           element={

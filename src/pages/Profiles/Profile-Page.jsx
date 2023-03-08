@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import UserLibrary from "../../components/UserLibrary/UserLibrary";
 import * as profileService from '../../services/profileService'
 import './Profile-Page.css'
 const ProfilePage = (props) => {
@@ -17,8 +18,9 @@ const ProfilePage = (props) => {
   <div className="profilePic">
     <img src={`${profile.photo}`} alt='profile avatar'/>
   </div>
-    
+
     <h1>{profile.name}</h1>
+    {profile.library?<UserLibrary library={profile.library}/>:<h2>No books in library</h2>}
   </>
   );
 }
