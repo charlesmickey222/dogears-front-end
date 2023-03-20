@@ -11,9 +11,10 @@ const Book = (props) => {
   const [author,setAuthor] = useState({})
   const handleAddBookToLibrary = async(evt) =>{
     evt.preventDefault()
-    if(location.state.book && location.state.user.profile){
+    if(book && location.state.user.profile){
     try {
-      const newProfile = await profileService.addBookToProfileLibrary(location.state.user.profile, location.state.book)
+      const newProfile = await profileService.addBookToProfileLibrary(location.state.user.profile, book,`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`)
+      console.log(newProfile)
       navigate(`/profiles/${newProfile.name.replaceAll(' ', '-')}`)
     } catch (error) {
       console.log(error)

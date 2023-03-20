@@ -3,15 +3,19 @@ import UserLibrary from "../../components/UserLibrary/UserLibrary";
 import * as profileService from '../../services/profileService'
 import './Profile-Page.css'
 const ProfilePage = (props) => {
-  const [profile,setProfile]= useState({})
+  const [profile, setProfile] = useState()
+
+  const handleRemoveBook = async(book) =>{
+    console.log(book)
+  }
 
   useEffect(() => {
     const profileData = async() =>{
-      const target = await profileService.fetchProfile(props.user.profile)
-      setProfile(target)
+      setProfile(props.profile)
     }
-    profileData()
-  }, [props.user])
+    if(!profile) profileData()
+  }, [props.profile, profile])
+
   if (!profile) return <h1>Loading Profile</h1>
   else return ( 
   <>
@@ -20,7 +24,7 @@ const ProfilePage = (props) => {
   </div>
 
     <h1>{profile.name}</h1>
-    {profile.library?<UserLibrary library={profile.library}/>:<h2>No books in library</h2>}
+    {profile.library?<UserLibrary library={profile.library} handleRemoveBook={handleRemoveBook} />:<h2>No books in library</h2>}
   </>
   );
 }

@@ -1,5 +1,5 @@
 import * as tokenService from './tokenService'
-
+import * as olService from './openLibraryService'
 const BASE_URL = `${process.env.REACT_APP_BACK_END_SERVER_URL}/api/profiles`
 
 async function getAllProfiles() {
@@ -29,14 +29,61 @@ async function fetchProfile(profileID){
   return await res.json()
 }
 
-async function addBookToProfileLibrary(profileId, book){
-  const res = await fetch(`${BASE_URL}/${profileId}/library/${book.isbn[0]}`,{
-    method:'POST',
-    headers:{
-      'Authorization': `Bearer ${tokenService.getToken()}`
-    },
-    body:book,
-  })
+async function addBookToProfileLibrary(profileId, book,coverURL){
+  try {
+    let pages = '';
+    const bookAsWork = await olService.fetchWorkData(book.key)
+    console.log(bookAsWork)
+    const bookData = new FormData()
+
+    if(book.contributions) {
+      const contributionsString = book.contributions.join('+')
+      bookData.append('contributions', contributionsString)
+    }
+    if(bookAsWork){
+      bookData.append('description', `${bookAsWork.description}`)
+      }else{
+      bookData.append('description', 'none found')
+      }
+    bookData.append('coverURL', `${coverURL}`)
+    book.number_of_pages_median?pages = book.number_of_pages_median: pages = 0;
+    bookData.append('publishDate',`${book.first_publish_year}`)
+    bookData.append('olID', `${book.key}`)
+    bookData.append('title',`${book.title}`)
+    bookData.append('authors', `${book.author_name}`)
+    bookData.append('publishers', `${book.publisher}`)
+    bookData.append('subjects', `${book.subject}`)
+    bookData.append('subjectPlaces', `${book.place}`)
+    bookData.append('subjectPeople', `${book.people}`)
+    bookData.append('pages', pages)
+    const res = await fetch(`${BASE_URL}/${profileId}/library`,{
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${tokenService.getToken()}`,
+      },
+      body: bookData
+    })
+    return await res.json()
+} catch (error) {
+  throw new Error(error)
+}
 }
 
-export { getAllProfiles, addPhoto, fetchProfile,addBookToProfileLibrary }
+async function removeBookFromLibrary(bookID, profileID){
+  try {
+    const delData = new FormData()
+    delData.append('bookId')
+    const res = await fetch(`${BASE_URL}/${profileID}`,{
+      method:'DELETE',
+      headers:{
+        'Authorization': `Bearer ${tokenService.getToken()}`,
+      },
+      body: bookID
+    })
+    return await res.json()
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export { getAllProfiles, addPhoto, fetchProfile, addBookToProfileLibrary, removeBookFromLibrary }

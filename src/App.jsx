@@ -38,8 +38,6 @@ const App = () => {
     setUser(authService.getUser())
   }
 
-  
-
   useEffect(()=>{
       const profileGrab = async() =>{
         const profileData = await profileServices.fetchProfile(user.profile)
@@ -65,7 +63,7 @@ const App = () => {
           path={`/profiles/:id`}
           element={
             <ProtectedRoute user={user}>
-              <ProfilePage user={user}/>
+              <ProfilePage user={user} profile={profile}/>
             </ProtectedRoute>
             }
         />
@@ -81,7 +79,7 @@ const App = () => {
           path="/books/:id"
           element={
             <ProtectedRoute user={user}>
-              <Book />
+              <Book/>
             </ProtectedRoute>
           }/>
         <Route
